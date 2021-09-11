@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_ads_example/ad_state.dart';
 import 'dart:math' as math;
 
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:provider/provider.dart';
+import 'banner_ad.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,21 +11,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  BannerAd? bannerAd;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final adState = Provider.of<AdState>(context);
-    adState.initStatus.then((status) => {
-          setState(() {
-            bannerAd = adState.createBannerAd()..load();
-          })
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
+    List<Widget> _items = List.generate(40, (index) {
+      if (index % 5 == 0) {
+        return BannerAdWidget();
+      }
+      return Container(
+        width: double.infinity,
+        height: 50,
+        color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+            .withOpacity(1.0),
+      );
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Ads Demo'),
@@ -36,22 +33,11 @@ class _HomeState extends State<Home> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemBuilder: (context, index) => Container(
-                width: double.infinity,
-                height: 50,
-                color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                    .withOpacity(1.0),
-              ),
+              itemCount: _items.length,
+              itemBuilder: (context, index) => _items[index],
             ),
           ),
-          bannerAd == null
-              ? SizedBox(height: 50.0)
-              : Container(
-                  height: 50.0,
-                  child: AdWidget(
-                    ad: bannerAd!,
-                  ),
-                ),
+          BannerAdWidget(),
         ],
       ),
     );
