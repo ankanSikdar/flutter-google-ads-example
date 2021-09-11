@@ -9,7 +9,14 @@ class AdState {
 
   String get bannerAdUnitId => 'ca-app-pub-3940256099942544/6300978111';
 
-  BannerAdListener get bannerAdListener => _bannerAdListener;
+  BannerAd createBannerAd() {
+    return BannerAd(
+      size: AdSize.banner,
+      adUnitId: bannerAdUnitId,
+      request: AdRequest(),
+      listener: _bannerAdListener,
+    );
+  }
 
   final _bannerAdListener = BannerAdListener(
     // Called when an ad is successfully received.

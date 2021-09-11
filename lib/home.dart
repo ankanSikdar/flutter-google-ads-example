@@ -21,12 +21,7 @@ class _HomeState extends State<Home> {
     final adState = Provider.of<AdState>(context);
     adState.initStatus.then((status) => {
           setState(() {
-            bannerAd = BannerAd(
-              size: AdSize.banner,
-              adUnitId: adState.bannerAdUnitId,
-              request: AdRequest(),
-              listener: adState.bannerAdListener,
-            )..load();
+            bannerAd = adState.createBannerAd()..load();
           })
         });
   }
