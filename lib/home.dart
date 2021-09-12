@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_ads_example/interstitial_ad.dart';
 import 'dart:math' as math;
 
 import 'banner_ad.dart';
@@ -34,7 +35,8 @@ class _HomeState extends State<Home> {
           Expanded(
             child: ListView.builder(
               itemCount: _items.length,
-              itemBuilder: (context, index) => _items[index],
+              itemBuilder: (context, index) =>
+                  InterstitialAdWidget(child: _items[index]),
             ),
           ),
           BannerAdWidget(),
